@@ -111,15 +111,15 @@ class TinController extends Controller
         ->where('comments.tin_id', $id)
         ->get();
 
-        $commentsByParents = [];
+        $comments = [];
 
         foreach ($binhluan as $comment) {
             if ($comment->parent_id === null) {
                 $comment->replies = [];
-                $commentsByParents[$comment->idbl] = $comment;
+                $comments[$comment->idbl] = $comment;
             } else {
-                if (isset($commentsByParents[$comment->parent_id])) {
-                    $commentsByParents[$comment->parent_id]->replies[] = $comment;
+                if (isset($comments[$comment->parent_id])) {
+                    $comments[$comment->parent_id]->replies[] = $comment;
                 }
             }
         }
@@ -134,7 +134,7 @@ class TinController extends Controller
 
 
 
-        return view('client.chiTiet',['tins' => $tins,'tin' => $tin, 'new' => $new, 'tinDL'=> $tinDL, 'top5' => $top5, 'danhmuc' => $danhmuc, 'binhluan' => $commentsByParents]);
+        return view('client.chiTiet',['tins' => $tins,'tin' => $tin, 'new' => $new, 'tinDL'=> $tinDL, 'top5' => $top5, 'danhmuc' => $danhmuc, 'binhluan' => $comments]);
     }
 
     public function lienHe(){
