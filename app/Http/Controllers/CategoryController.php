@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $data = Category::query()->latest('id')->paginate(5);
+        return view('admin.category.category', compact('data'));
     }
 
     /**
@@ -22,7 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('admin.category.create');
     }
 
     /**
@@ -30,7 +32,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        Category::query()->create($request->all());
+
+        return redirect()->route('category.index')->with('msg', 'Thêm thành công');
     }
 
     /**
@@ -44,9 +48,9 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Category $category, $id)
     {
-        //
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -54,7 +58,9 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->update($request->all());
+
+        return redirect()->route('category.index') ->with('msg', 'Sửa thành công');
     }
 
     /**
@@ -62,6 +68,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return back()->with('msg', 'Xoá thành công');
     }
 }

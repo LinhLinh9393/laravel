@@ -1,8 +1,5 @@
 <?php
-    $danhmuc = DB::table('categories')
-            ->select('id','title')
-            ->get();
-
+$danhmuc = DB::table('categories')->select('id', 'title')->get();
 
 ?>
 <div class="container-fluid fixed-top">
@@ -10,24 +7,30 @@
         <div class="d-flex justify-content-between">
             <div></div>
             <div class="top-info ps-2">
-                <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">Trịnh Văn Bô, Nam Từ Liêm, Hà Nội, Việt Nam</a></small>
-                <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Linh@gmail.com</a></small>
+                <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#"
+                        class="text-white">Trịnh Văn Bô, Nam Từ Liêm, Hà Nội, Việt Nam</a></small>
+                <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#"
+                        class="text-white">Linh@gmail.com</a></small>
             </div>
         </div>
     </div>
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="{{ route('home') }}" class="navbar-brand"><h1 class="text-primary display-6">Website</h1></a>
-            <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <a href="{{ route('home') }}" class="navbar-brand">
+                <h1 class="text-primary display-6">Website</h1>
+            </a>
+            <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars text-primary"></span>
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li><a href="{{ url('/') }}" class="nav-item nav-link active">Trang chủ</a></li>
-                        <li><a href="{{ route('giothieu')}}" class="nav-item nav-link">Giới thiệu</a></li>
+                        <li><a href="{{ route('giothieu') }}" class="nav-item nav-link">Giới thiệu</a></li>
                         @foreach ($danhmuc as $item)
-                            <li><a href="{{ route('content', $item ->id )}}" class="nav-item nav-link">{{ $item ->title}}</a></li>
+                            <li><a href="{{ route('content', $item->id) }}"
+                                    class="nav-item nav-link">{{ $item->title }}</a></li>
                         @endforeach
                         <li><a href="{{ route('lienHe') }}" class="nav-item nav-link">Liên hệ</a></li>
                     </ul>
@@ -36,7 +39,8 @@
 
                 <div class="d-flex m-3 me-0">
                     <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-user fa-2x"></i></a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                                class="fas fa-user fa-2x"></i></a>
                         <div class="dropdown-menu m-0 bg-secondary rounded-0">
                             <ul class="dropdown-menu ms-auto">
                                 <!-- Authentication Links -->
@@ -54,18 +58,21 @@
                                     @endif
                                 @else
                                     <li class="nav-item dropdown">
-                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
+                                            role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" v-pre>
                                             {{ Auth::user()->name }}
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
+                                                onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
                                                 {{ __('Đăng xuất') }}
                                             </a>
 
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
                                                 @csrf
                                             </form>
                                         </div>

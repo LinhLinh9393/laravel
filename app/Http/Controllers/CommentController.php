@@ -22,8 +22,13 @@ class CommentController extends Controller
 }
     public function index()
     {
-        // $data = DB::table('comments')->get();
-        // return view(self::PATH_VIEW. __FUNCTION__,compact('data'));
+        $data = Comment::query()
+        ->join('tins', 'comments.tin_id', '=', 'tins.id')
+        ->join('users', 'comments.user_id', '=', 'users.id')
+        ->select('tins.title', 'comments.content', 'users.name','comments.created_at', 'comments.id')
+        ->latest('comments.id')
+        ->paginate(5);
+       return view('admin.comment.index', compact('data'));
     }
 
     /**
@@ -31,7 +36,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        return view('client.chiTiet');
+        $tins = Tin::all();
+        return view('admin.comment.create', compact('tins'));
     }
 
     /**
@@ -39,7 +45,19 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
+        $request->validate([
+            'content' => 'required|string',
+            'parent_id' => 'nullable|exists:comments,id',
+        ]);
 
+        Comment::query()->create([
+            'tin_id' =>$request->tin_id,
+            'user_id' => Auth::id(),
+            'parent_id' =>$request->parent_id,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->route('comment.index')->with('msg', 'Bình luận đã gửi thành công!');
     }
 
     /**
@@ -71,6 +89,7 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return back()->with('msg', 'Xoá thành công');
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,20 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+            /**
+             * @var User $user
+             */
+            $user = Auth::user();
+            if($user->isAdmin()){
+                return redirect()->route('member');
+            }
+            return redirect()->route('admin');
+
+
+        // return back()->withErrors([
+        //     'email' => 'Email không tồn tại',
+        // ])->onlyInput('email');
         return view('home');
     }
 }

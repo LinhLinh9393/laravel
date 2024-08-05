@@ -3,17 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Http\Requests\StoreAdminRequest;
+use App\Http\Requests\StoreAdminRequests;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Models\Category;
+use App\Models\Tin;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+
+     public function index(){
         return view('admin.indexs');
+     }
+    public function search(Request $request)
+    {
+        $key = $request->input('key');
+
+        $dm = Category::where('title', 'like', "%$key%")->get();
+
+        $tin = Tin::where('title', 'like', "%$key%")
+                    ->orWhere('desc', 'like', "%$key%")
+                    ->orWhere('content', 'like', "%$key%")
+                    ->get();
+
+        return view('admin.search', ['dm' => $dm, 'tin' => $tin,'key' => $key]);
     }
 
     /**
@@ -27,7 +43,7 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAdminRequest $request)
+    public function store(StoreAdminRequests $request)
     {
         //
     }

@@ -19,4 +19,26 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    // public function showLinkRequestForm(Request $request, $token = null){
+    //     return view('auth.passwords.reset')->with(
+    //         ['token' => $token, 'email' => $request->email]
+    //     );
+    // }
+
+    // public function sendResetLinkEmail(UpdateUsersRequest $request, User $users, $id){
+    //     $request->validate([
+    //         'email' => 'required|string|email|max:255|unique:users,email,' . $users->id,
+    //         'password' => 'required|string|min:8|confirmed',
+    //     ]);
+
+    //     $users = User::findOrFail($id);
+    //     $users->update([
+    //         'email' => $request->input('email'),
+    //         'password' => $request->input('password'),
+    //     ]);
+
+
+    //     return redirect()->route('auth.login') ->with('msg', 'Đổi mật khẩu thành công');
+    // }
 }

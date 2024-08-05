@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+    ];
+
+    public function tins()
+    {
+        return $this->hasMany(Tin::class, 'id_categories');
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\Tin;
 use App\Http\Requests\StoreTinRequest;
 use App\Http\Requests\UpdateTinRequest;
 use App\Models\Comment;
+use App\Models\User;
 // use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class TinController extends Controller
      */
     public function index()
     {
+
         $tin = DB::table('tins')
         ->select('id', 'title','img', 'desc')
         ->get();
@@ -78,8 +80,6 @@ class TinController extends Controller
 
     public function chiTiet($id)
     {
-        Tin::where('id', $id)->increment('view');
-
         $tin = Tin::findOrFail($id);
 
         $tins = DB::table('tins')

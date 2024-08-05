@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -37,4 +39,36 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+
+    public function showFormLogin(){
+        return view('auth.login');
+    }
+
+    protected function login(){
+        $credentials = request()->validate([
+            'email' => ['required', 'email'],
+            'password' =>['required'],
+        ]);
+
+        if(Auth::attempt($credentials)){
+            request()->session()->regenerate();
+
+            /**
+             * @var User $user
+             */
+            $user = Auth::user();
+            if($user->role == 1){
+                return redirect()->route('admin');
+            }else{
+                return redirect()->route('home');
+            }
+
+        }
+
+        return back()->withErrors([
+            'email' => 'Email không tồn tại',
+        ])->onlyInput('email');
+    }
+
+
 }
